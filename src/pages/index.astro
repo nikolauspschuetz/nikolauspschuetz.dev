@@ -1,0 +1,68 @@
+---
+import Base from "../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const recent = posts.slice(0, 3);
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+---
+
+<Base>
+  <h1>Nikolaus Schuetz</h1>
+  <p class="tagline">
+    Principal Platform Engineer — I build the data and infrastructure platforms
+    other engineers run on.
+  </p>
+
+  <p>
+    Deep in Terraform, Kubernetes/GitOps, large-scale data systems (Spark, Flink,
+    Snowflake, Databricks), and the CI/CD beneath them. I practice AI-augmented,
+    issue-driven engineering — and contribute the results back upstream.
+  </p>
+
+  <h2>Things I've authored</h2>
+  <ul class="links">
+    <li>
+      <a href="https://registry.terraform.io/providers/linguado-dev/getstream/latest"
+        >terraform-provider-getstream</a
+      > — a Terraform provider for the GetStream chat API, published to the Terraform
+      Registry.
+    </li>
+    <li>
+      <a href="https://pypi.org/project/pymlb-statsapi/">pymlb-statsapi</a> — a
+      schema-driven Python client for the MLB Stats API, on PyPI.
+    </li>
+  </ul>
+
+  <h2>Open source</h2>
+  <p>
+    Fixes and tests merged into projects I rely on — always verified
+    fails-before / passes-after, always with a regression test: <a
+      href="https://github.com/pypa/wheel/pull/695">pypa/wheel</a
+    >, <a href="https://github.com/apache/flink/pull/28819">Apache Flink</a>, <a
+      href="https://github.com/casbin/casbin/pull/1746">Casbin</a
+    >, and 30+ more across the CNCF, Python, Go, and Rust ecosystems. Tests for
+    <code>git merge-base --is-ancestor</code> are queued for git core.
+  </p>
+
+  <h2>Writing</h2>
+  {
+    recent.length === 0 ? (
+      <p class="tagline">Posts coming soon.</p>
+    ) : (
+      <ul class="post-list">
+        {recent.map((p) => (
+          <li>
+            <a href={`/blog/${p.id}`}>{p.data.title}</a>
+            <div class="meta">{fmt(p.data.date)}</div>
+            <p class="desc">{p.data.description}</p>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+  {posts.length > 3 && <p><a href="/blog">All posts →</a></p>}
+</Base>

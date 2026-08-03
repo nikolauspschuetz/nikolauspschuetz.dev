@@ -1,0 +1,35 @@
+---
+import "../styles/global.css";
+interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = "Nikolaus Schuetz",
+  description = "Principal Platform Engineer — data & infrastructure platforms, Terraform, Kubernetes, and open source.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>" />
+  </head>
+  <body>
+    <nav>
+      <a href="/">nikolauspschuetz</a>
+      <span class="spacer"></span>
+      <a href="/blog">Blog</a>
+      <a href="https://github.com/nikolauspschuetz">GitHub</a>
+      <a href="https://www.linkedin.com/in/nikolaus-schuetz-49039737">LinkedIn</a>
+    </nav>
+    <main>
+      <slot />
+    </main>
+    <footer>© Nikolaus Schuetz · built with Astro, deployed on Cloudflare Pages</footer>
+  </body>
+</html>
