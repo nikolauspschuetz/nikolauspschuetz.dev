@@ -8,47 +8,95 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
 const recent = posts.slice(0, 3);
 const fmt = (d: Date) =>
   d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+
+// Authored — my own published work
+const authored = [
+  {
+    name: "terraform-provider-getstream",
+    href: "https://registry.terraform.io/providers/linguado-dev/getstream/latest",
+    tag: "Go",
+    desc: "Terraform provider for the GetStream chat API — published to the Terraform Registry.",
+    meta: "Plugin Framework · live-CRUD acceptance tests · GoReleaser pipeline",
+  },
+  {
+    name: "pymlb-statsapi",
+    href: "https://pypi.org/project/pymlb-statsapi/",
+    tag: "Python",
+    desc: "Schema-driven client for the MLB Stats API — 20 endpoints, 100+ generated methods.",
+    meta: "on PyPI · BDD suite (39 scenarios) · ReadTheDocs",
+  },
+];
+
+// Merged upstream — the credibility ledger (newest / highest-signal first)
+const ledger = [
+  { repo: "sharkdp/fd",        pr: "2082",  href: "https://github.com/sharkdp/fd/pull/2082",        what: "panic on out-of-range @ Unix timestamp in time filters" },
+  { repo: "apache/flink",      pr: "28912", href: "https://github.com/apache/flink/pull/28912",      what: "Array/Multiset from_sql_type decoded via the wrong direction" },
+  { repo: "Kludex/starlette",  pr: "3389",  href: "https://github.com/Kludex/starlette/pull/3389",   what: "inverted single-byte HTTP Range (bytes=5-4) accepted" },
+  { repo: "apache/spark",      pr: "57522", href: "https://github.com/apache/spark/pull/57522",      what: "PySpark type-inference correctness" },
+  { repo: "casbin/casbin",     pr: "1746",  href: "https://github.com/casbin/casbin/pull/1746",      what: "UTF-8 corruption affecting authorization decisions" },
+  { repo: "Farama/Gymnasium",  pr: "1648",  href: "https://github.com/Farama-Foundation/Gymnasium/pull/1648", what: "Discrete.contains OverflowError on out-of-dtype ints" },
+  { repo: "helm/helm",         pr: "32328", href: "https://github.com/helm/helm/pull/32328",         what: "CNCF flagship — reliability fix" },
+  { repo: "pypa/wheel",        pr: "695",   href: "https://github.com/pypa/wheel/pull/695",          what: "ZIP64 corruption in the reference wheel implementation" },
+  { repo: "containerd/nerdctl",pr: "5088",  href: "https://github.com/containerd/nerdctl/pull/5088",  what: "docker-compat validation tests" },
+  { repo: "stakater/Reloader", pr: "1193",  href: "https://github.com/stakater/Reloader/pull/1193",   what: "operator-wide panic on a malformed regex annotation" },
+];
 ---
 
 <Base>
-  <h1>Nikolaus Schuetz</h1>
-  <p class="tagline">
-    Principal Platform Engineer — I build the data and infrastructure platforms
-    other engineers run on.
+  <p class="hero-name"><strong>Nikolaus Schuetz</strong></p>
+  <p class="hero-role">Principal Platform Engineer</p>
+
+  <p class="intro">
+    I build the <span class="em">Kubernetes platforms, Terraform providers, and
+    the CI/CD</span> other engineers ship on — and contribute the results back
+    upstream.
+  </p>
+  <p class="sub">
+    Deep in Terraform (authored &amp; published a provider), Kubernetes/GitOps,
+    and large-scale data systems (Spark, Flink, Snowflake, Databricks, Airflow).
+    I practice AI-augmented, issue-driven engineering — specs as reviewable
+    tickets, returned as verified PRs.
   </p>
 
-  <p>
-    Deep in Terraform, Kubernetes/GitOps, large-scale data systems (Spark, Flink,
-    Snowflake, Databricks), and the CI/CD beneath them. I practice AI-augmented,
-    issue-driven engineering — and contribute the results back upstream.
+  <div class="chips">
+    <span class="chip"><span class="k">authored</span>&nbsp; terraform-provider · pymlb-statsapi</span>
+    <span class="chip"><span class="k">merged</span>&nbsp; fd · flink · spark · starlette · git</span>
+  </div>
+
+  <div class="label" id="work">01 — Authored</div>
+  <div class="rows">
+    {authored.map((p) => (
+      <a class="row" href={p.href}>
+        <div class="rt">
+          <span class="name">{p.name}</span>
+          <span class="tag">{p.tag}</span>
+        </div>
+        <p class="desc">{p.desc}</p>
+        <p class="meta">{p.meta}</p>
+      </a>
+    ))}
+  </div>
+
+  <div class="label">02 — Merged upstream</div>
+  <p class="sub" style="margin:-.4rem 0 1rem">
+    Fixes and tests merged into projects I rely on — each verified
+    fails-before / passes-after, always with a regression test.
+  </p>
+  <div class="ledger">
+    {ledger.map((l) => (
+      <a class="le" href={l.href}>
+        <span class="repo">{l.repo}</span>
+        <span class="what">{l.what}</span>
+        <span class="st">#{l.pr} · merged</span>
+      </a>
+    ))}
+  </div>
+  <p class="ledger-more">
+    …and 30+ more across the CNCF, Python, Go, Rust, and JS/TS ecosystems. Tests
+    for <code>git merge-base --is-ancestor</code> are queued for git core.
   </p>
 
-  <h2>Things I've authored</h2>
-  <ul class="links">
-    <li>
-      <a href="https://registry.terraform.io/providers/linguado-dev/getstream/latest"
-        >terraform-provider-getstream</a
-      > — a Terraform provider for the GetStream chat API, published to the Terraform
-      Registry.
-    </li>
-    <li>
-      <a href="https://pypi.org/project/pymlb-statsapi/">pymlb-statsapi</a> — a
-      schema-driven Python client for the MLB Stats API, on PyPI.
-    </li>
-  </ul>
-
-  <h2>Open source</h2>
-  <p>
-    Fixes and tests merged into projects I rely on — always verified
-    fails-before / passes-after, always with a regression test: <a
-      href="https://github.com/pypa/wheel/pull/695">pypa/wheel</a
-    >, <a href="https://github.com/apache/flink/pull/28819">Apache Flink</a>, <a
-      href="https://github.com/casbin/casbin/pull/1746">Casbin</a
-    >, and 30+ more across the CNCF, Python, Go, and Rust ecosystems. Tests for
-    <code>git merge-base --is-ancestor</code> are queued for git core.
-  </p>
-
-  <h2>Writing</h2>
+  <div class="label">03 — Writing</div>
   {
     recent.length === 0 ? (
       <p class="tagline">Posts coming soon.</p>
@@ -57,7 +105,7 @@ const fmt = (d: Date) =>
         {recent.map((p) => (
           <li>
             <a href={`/blog/${p.id}`}>{p.data.title}</a>
-            <div class="meta">{fmt(p.data.date)}</div>
+            <div class="pmeta">{fmt(p.data.date)}</div>
             <p class="desc">{p.data.description}</p>
           </li>
         ))}
