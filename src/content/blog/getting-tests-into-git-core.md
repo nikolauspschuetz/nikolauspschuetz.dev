@@ -3,7 +3,7 @@ title: "Getting tests into git core"
 description: "git merge-base --is-ancestor is used in scripts everywhere and had no tests. Here's what it took to add some — and what the git contribution process is actually like."
 date: 2026-08-03
 tags: ["open-source", "git", "testing"]
-draft: true
+draft: false
 ---
 
 `git merge-base --is-ancestor A B` answers a yes/no question — is A an ancestor of B? — and returns it as an exit code: `0` for yes, `1` for no. Shell scripts lean on it constantly ("has this branch been merged yet?"). It's load-bearing plumbing.
@@ -43,7 +43,7 @@ git integrates changes through a sequence of branches, and watching your topic m
 2. **`next`** — accepted, cooking toward the next release.
 3. **`master`** — shipped.
 
-My topic, `ns/merge-base-is-ancestor-tests`, is in `next` as I write this, with a note in the "What's cooking in git.git" report that reads: *"Will merge to 'master'."* In git's process, that's about as close to done as it gets before the actual merge.
+My topic, `ns/merge-base-is-ancestor-tests`, went the whole distance: after cooking in `next`, Junio [merged it to `master`](https://github.com/git/git/commit/89454a60ed3c). The tests are now part of git itself.
 
 ## Why bother
 
